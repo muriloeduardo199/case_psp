@@ -8,6 +8,7 @@ from validate.validator import *
 
 # Definindo a função que processa uma transação e cria um payable
 def process_transaction(transaction: Transaction) -> Payable:
+    
     # Inserindo a transação na tabela de transações
     cur.execute("""
         INSERT INTO transactions (amount, description, payment_method, card_number, card_holder_name, card_expiration_date, card_cvv)
@@ -103,7 +104,7 @@ transaction = Transaction(
         description = 'Compra de um celular',
         payment_method = 'credit_card',
         card_number = '6543210987654321',
-        card_holder_name = 'Murilo',
+        card_holder_name = 'murilo',
         card_expiration_date = date(2024, 11, 30),
         card_cvv = '456'
     )

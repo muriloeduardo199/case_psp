@@ -17,7 +17,7 @@ cur.execute("""
         id SERIAL PRIMARY KEY,
         amount INTEGER NOT NULL,
         description VARCHAR(255) NOT NULL,
-        payment_method VARCHAR(10) NOT NULL,
+        payment_method VARCHAR(11) NOT NULL,
         card_number VARCHAR(16) NOT NULL,
         card_holder_name VARCHAR(255) NOT NULL,
         card_expiration_date DATE NOT NULL,
@@ -29,7 +29,7 @@ cur.execute("""
     CREATE TABLE IF NOT EXISTS payables (
         id SERIAL PRIMARY KEY,
         transaction_id INTEGER NOT NULL REFERENCES transactions(id),
-        status VARCHAR(10) NOT NULL,
+        status VARCHAR(15) NOT NULL,
         payment_date DATE NOT NULL,
         fee INTEGER NOT NULL,
         amount INTEGER NOT NULL

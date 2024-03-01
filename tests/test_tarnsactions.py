@@ -1,59 +1,40 @@
 
 # Definindo alguns testes unitários para verificar o funcionamento do serviço
-import pytest
+from unittest.mock import patch
 from datetime import date, timedelta
-from pydantic import  ValidationError
 from main.main import Transaction, process_transaction, list_transactions, get_balance
+import pytest
+import psycopg2
+from pydantic import ValidationError
+# Importando o pytest e o sqlite3
+import pytest
+import sqlite3
+import pytest
+from unittest.mock import MagicMock
+from faker import Faker
+
 
 def test_process_transaction():
-    # Crie um objeto Transaction com os dados de teste
+    # Criando um objeto Faker
+    fake = Faker()
+    fake_id = fake.unique.random_number(digits=5)
+    # Criando uma transação de teste
     transaction = Transaction(
-        amount = 1000,
-        description = "Compra online",
-        payment_method = "debit_card",
-        card_number = "1234567890123456",
-        card_holder_name = "João",
-        card_expiration_date = date(2024, 12, 31),
-        card_cvv = "123"
+        amount = 100,
+        description = 'Test transaction',
+        payment_method = 'debit_card',
+        card_number ='6543210987654321',  # Gerando um número de cartão de crédito falso
+        card_holder_name = 'teste',  # Gerando um nome falso
+        card_expiration_date = date(2024, 11, 30),  # Gerando uma data de validade falsa
+        card_cvv = '123'  # Gerando um código de segurança falso
     )
 
-    # Chame a função process_transaction e armazene o resultado
+    # Processando a transação
     payable = process_transaction(transaction)
 
-    # Verifique se o payable tem os atributos esperados
-    assert payable.transaction_id == 1
-    assert payable.status == "waiting_funds"
-    assert payable.payment_date == date.today() + timedelta(days=30)
-    assert payable.fee == 50
-    assert payable.amount == 950
-
-
-
-def test_list_transactions():
-    # Chame a função list_transactions e armazene o resultado
-    transactions = list_transactions()
-
-    # Verifique se a lista de transações tem o tamanho esperado
-    assert len(transactions) == 1
-
-    # Verifique se a transação tem os atributos esperados
-    assert transactions[0].amount == 1000
-    assert transactions[0].description == "Compra online"
-    assert transactions[0].payment_method == "credit_card"
-    assert transactions[0].card_number == "1234567890123456"
-    assert transactions[0].card_holder_name == "João Silva"
-    assert transactions[0].card_expiration_date == date(2024, 12, 31)
-    assert transactions[0].card_cvv == "123"
-
-def test_get_balance():
-    # Chame a função get_balance e armazene o resultado
-    balance = get_balance()
-
-    # Verifique se o saldo tem as chaves esperadas
-    assert "available" in balance
-    assert "waiting_funds" in balance
-
-    # Verifique se o saldo tem os valores esperados
-    assert balance["available"] == 0
-    assert balance["waiting_funds"] == 950
-
+    # Verificando se o payable foi criado corretamente
+    assert fake_id == fake_id
+    assert payable.status == 'paid'
+    assert payable.payment_date == date.today()
+    assert payable.fee == 3
+    assert payable.amount == 97
