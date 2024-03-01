@@ -1,7 +1,6 @@
 # Importando as bibliotecas necessárias
 from datetime import date, timedelta
 from typing import List
-from pydantic import  ValidationError
 from db.database import *
 from validate.validator import *
 

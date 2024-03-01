@@ -1,16 +1,6 @@
-
-# Definindo alguns testes unitários para verificar o funcionamento do serviço
-from unittest.mock import patch
-from datetime import date, timedelta
+from datetime import date
 from main.main import Transaction, process_transaction, list_transactions, get_balance
 import pytest
-import psycopg2
-from pydantic import ValidationError
-# Importando o pytest e o sqlite3
-import pytest
-import sqlite3
-import pytest
-from unittest.mock import MagicMock
 from faker import Faker
 
 
