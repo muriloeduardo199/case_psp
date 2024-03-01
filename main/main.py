@@ -8,6 +8,15 @@ from validate.validator import *
 
 # Definindo a função que processa uma transação e cria um payable
 def process_transaction(transaction: Transaction) -> Payable:
+    """
+    Processa uma transação e cria um payable associado.
+
+    Args:
+        transaction (Transaction): A transação a ser processada.
+
+    Returns:
+        Payable: O payable criado a partir da transação.
+    """
     
     # Inserindo a transação na tabela de transações
     cur.execute("""
@@ -50,6 +59,13 @@ def process_transaction(transaction: Transaction) -> Payable:
 
 # Definindo a função que retorna uma lista das transações já criadas
 def list_transactions() -> List[Transaction]:
+
+    """
+    Retorna uma lista de todas as transações já criadas.
+
+    Returns:
+        List[Transaction]: A lista de transações.
+    """
     # Selecionando todas as transações da tabela de transações
     cur.execute("""
         SELECT id, amount, description, payment_method, card_number, card_holder_name, card_expiration_date, card_cvv
@@ -76,6 +92,12 @@ def list_transactions() -> List[Transaction]:
 
 # Definindo a função que retorna o saldo do cliente
 def get_balance() -> dict:
+    """
+    Retorna o saldo do cliente, incluindo o saldo disponível e a receber.
+
+    Returns:
+        dict: Um dicionário contendo o saldo disponível e a receber do cliente.
+    """
     # Selecionando o saldo disponível e a receber do cliente da tabela de payables
     cur.execute("""
         SELECT status, SUM(amount)
@@ -95,23 +117,3 @@ def get_balance() -> dict:
     # Retornando o saldo do cliente
     return balance
 
-# Definindo alguns testes unitários para verificar o funcionamento do serviço
-
-    # Processando as transações
-
-transaction = Transaction(
-        amount = 1000,
-        description = 'Compra de um celular',
-        payment_method = 'credit_card',
-        card_number = '6543210987654321',
-        card_holder_name = 'murilo',
-        card_expiration_date = date(2024, 11, 30),
-        card_cvv = '456'
-    )
-
-
-# Processando a transação e criando um payable
-payable = process_transaction(transaction)
-
-# Imprimindo o payable
-print(payable)

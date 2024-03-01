@@ -3,8 +3,19 @@ from pydantic import BaseModel, validator
 from db.database import *
 
 
-# Definindo o modelo de dados para uma transação usando pydantic
 class Transaction(BaseModel):
+    """
+    Modelo de dados para uma transação.
+
+    Campos:
+        amount (int): O valor da transação.
+        description (str): A descrição da transação.
+        payment_method (str): O método de pagamento usado na transação.
+        card_number (str): O número do cartão usado na transação.
+        card_holder_name (str): O nome do titular do cartão.
+        card_expiration_date (date): A data de validade do cartão.
+        card_cvv (str): O código de segurança do cartão.
+    """
     amount: int
     description: str
     payment_method: str
@@ -50,8 +61,18 @@ class Transaction(BaseModel):
             raise ValueError('card_cvv must be a 3-digit number')
         return v
 
-# Definindo o modelo de dados para um payable usando pydantic
+
 class Payable(BaseModel):
+    """
+    Modelo de dados para um payable.
+
+    Campos:
+        transaction_id (int): O ID da transação associada ao payable.
+        status (str): O status do payable.
+        payment_date (date): A data de pagamento do payable.
+        fee (int): A taxa cobrada na transação.
+        amount (int): O valor do payable.
+    """
     transaction_id: int
     status: str
     payment_date: date
