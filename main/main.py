@@ -114,5 +114,5 @@ def get_balance() -> dict:
     # Retornando o saldo do cliente
     return balance
 
-print(get_balance())
+
 
