@@ -1,11 +1,10 @@
-# Importando as bibliotecas necessárias
 from datetime import date, timedelta
 from typing import List
 from db.database import *
 from validate.validator import *
 
 
-# Definindo a função que processa uma transação e cria um payable
+
 def process_transaction(transaction: Transaction) -> Payable:
     """
     Processa uma transação e cria um payable associado.
@@ -26,7 +25,6 @@ def process_transaction(transaction: Transaction) -> Payable:
     transaction_id = cur.fetchone()[0]
     conn.commit()
 
-    # Calculando o status, a data de pagamento, a taxa e o valor do payable
     if transaction.payment_method == 'debit_card':
         status = 'paid'
         payment_date = date.today()
@@ -37,7 +35,7 @@ def process_transaction(transaction: Transaction) -> Payable:
         fee = int(transaction.amount * 0.05)
     amount = transaction.amount - fee
 
-    # Criando o payable
+   
     payable = Payable(
         transaction_id = transaction_id,
         status = status,
@@ -53,10 +51,10 @@ def process_transaction(transaction: Transaction) -> Payable:
     """, (payable.transaction_id, payable.status, payable.payment_date, payable.fee, payable.amount))
     conn.commit()
 
-    # Retornando o payable
+   
     return payable
 
-# Definindo a função que retorna uma lista das transações já criadas
+
 def list_transactions() -> List[Transaction]:
 
     """
@@ -72,7 +70,7 @@ def list_transactions() -> List[Transaction]:
     """)
     rows = cur.fetchall()
 
-    # Criando uma lista de objetos Transaction a partir dos dados
+    
     transactions = []
     for row in rows:
         transaction = Transaction(
@@ -86,10 +84,10 @@ def list_transactions() -> List[Transaction]:
         )
         transactions.append(transaction)
 
-    # Retornando a lista de transações
+    
     return transactions
 
-# Definindo a função que retorna o saldo do cliente
+
 def get_balance() -> dict:
     """
     Retorna o saldo do cliente, incluindo o saldo disponível e a receber.
@@ -115,4 +113,6 @@ def get_balance() -> dict:
 
     # Retornando o saldo do cliente
     return balance
+
+print(get_balance())
 

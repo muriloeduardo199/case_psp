@@ -45,7 +45,7 @@ class Transaction(BaseModel):
 
     @validator('card_holder_name')
     def card_holder_name_must_be_valid(cls, v):
-        if len(v) == 0 or not v.isalpha():
+        if len(v) == 0 or not all(word.isalpha() for word in v.split()):
             raise ValueError('card_holder_name must be a non-empty string of alphabets')
         return v
 
